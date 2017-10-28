@@ -3,7 +3,7 @@ import java.io.*;
 
 public class ClienteTCP {
 
-    public static void main(String argv[]) {
+    public static void main(String argv[]) throws Exception{
         BufferedReader buffer = new BufferedReader(new InputStreamReader(System.in));
         DataInputStream in;
         DataOutputStream out;

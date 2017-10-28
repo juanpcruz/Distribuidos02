@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class ServerTCP {
 
-    public static void main(String argv[]) {
+    public static void main(String argv[]) throws Exception{
         ServerSocket server;
         Socket socketBienvenida;
         ArrayList<ArrayList> distritos;
