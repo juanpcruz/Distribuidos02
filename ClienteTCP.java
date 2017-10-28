@@ -1,5 +1,8 @@
+package com.company;
+
 import java.net.*;
 import java.io.*;
+import java.util.List;
 
 public class ClienteTCP {
 
@@ -11,6 +14,10 @@ public class ClienteTCP {
         String ip;
         String puerto;
         String mensaje = "";
+
+        List<Titan> capturados;
+        List<Titan> asesinados;
+
         try {
             System.out.print("Ingrese ip de servidor: \n>");
             ip = buffer.readLine();
