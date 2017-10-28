@@ -12,16 +12,18 @@ public class ServerTCP {
         ArrayList<ArrayList> distritos;
         ArrayList<ServerCentralThread> conexiones;
         try {
+            //arreglo con informacion de servidores-distrito---> cada elemento es un arreglo con la info
             distritos =new ArrayList<ArrayList>();
+            //arreglo con cada thread encargado de conexion tcp de servidor central y cliente
             conexiones = new ArrayList<ServerCentralThread>();
+            //ejecucion de thread nuevo para encargarse de registrar distritos
             ServerCentralDistritos threadDistritos = new ServerCentralDistritos(distritos);
             threadDistritos.start();
 
             while (true) {
                 server = new ServerSocket(6000);
                 socketBienvenida = server.accept();
-                //ServerCentralThread thread1 = new ServerCentralThread(socketBienvenida,distritos);
-                //thread1.start();
+                //ejecutar y agregar thread a la lista de estos
                 conexiones.add(0,new ServerCentralThread(socketBienvenida,distritos));
                 conexiones.get(0).start();
                 server.close();

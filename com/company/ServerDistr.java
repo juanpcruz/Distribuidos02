@@ -12,6 +12,7 @@ public class ServerDistr {
         DatagramSocket clientSocket = new DatagramSocket();
         InetAddress IPAddress = InetAddress.getByName("localhost");
         byte[] data = new byte[256];
+        //ingreso de informacion del distrito/servidor
         String mensaje = "";
         System.out.print("Nombre de distrito a registrar:\n");
         mensaje = mensaje + buffer.readLine();
@@ -21,6 +22,7 @@ public class ServerDistr {
         mensaje = mensaje + "/" + buffer.readLine();
         System.out.print("Puerto de multicast de distrito a registrar:\n");
         mensaje = mensaje + "/" + buffer.readLine();
+        //envio de la informacion al servidor central para su registro
         data = mensaje.getBytes();
         DatagramPacket sendPacket = new DatagramPacket(data, data.length, IPAddress, 5050);
         clientSocket.send(sendPacket);

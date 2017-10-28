@@ -8,8 +8,9 @@ public class ServerCentralDistritos extends Thread  {
     ArrayList<ArrayList> distritos;
     DatagramSocket socket;
     byte[] mensaje;
-    DatagramPacket paqueteRecivido;
+    DatagramPacket paqueteRecibido;
     public ServerCentralDistritos(ArrayList distrito){
+        //distritos sin servidor (solo de prueba de listado)
         distritos = distrito;
         ArrayList distritos1 = new ArrayList();
         distritos1.add("nombre");
@@ -31,22 +32,25 @@ public class ServerCentralDistritos extends Thread  {
         try {
             socket = new DatagramSocket(5050);
             mensaje = new byte[256];
-            paqueteRecivido = new DatagramPacket(mensaje, 256);
+            paqueteRecibido = new DatagramPacket(mensaje, 256);
             while(true) {
+                //en espera de recibir datagramas
                 try {
-                    socket.receive(paqueteRecivido);
+                    socket.receive(paqueteRecibido);
                 } catch (SocketException a) {
                     System.err.println(a.getMessage());
                 }
-                String mensajeRecivido = new String(paqueteRecivido.getData());
-                System.out.print(paqueteRecivido.getAddress()+" dice: "+mensajeRecivido+"\n");
-                String[] partes = mensajeRecivido.split("/");
+                //traducir datagrama a string y luego obtener informacion de distrito a registrar
+                String mensajeRecibido = new String(paqueteRecibido.getData());
+                System.out.print(paqueteRecibido.getAddress()+" dice: "+mensajeRecibido+"\n");
+                String[] partes = mensajeRecibido.split("/");
                 ArrayList nuevoDistrito = new ArrayList();
                 nuevoDistrito.add(partes[0]);
                 nuevoDistrito.add(partes[1]);
                 nuevoDistrito.add(partes[2]);
                 nuevoDistrito.add(partes[3]);
                 distritos.add(nuevoDistrito);
+                //enviar de vuelta confirmando registro exitoso
             }
         }
         catch (IOException e){
