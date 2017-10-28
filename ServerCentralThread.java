@@ -9,7 +9,7 @@ public class ServerCentralThread extends Thread {
         socketCliente = socketBienvenida;
         distritos = distrito;
     }
-    public void run(){
+    public void run() {
         String mensaje = "";
         DataInputStream in;
         DataOutputStream out;
@@ -32,8 +32,10 @@ public class ServerCentralThread extends Thread {
                 System.out.println("Permitir conexion a servidor " +distritos.get(Integer.parseInt(mensaje)-1).get(2)+"?" );
                 String respuesta = buffer.readLine();
                 if(respuesta.equals("s") || respuesta.equals("S")){
-                    System.out.print("asd"+ respuesta);
                     mensaje = "Conexion aceptada";
+                    out.writeUTF(mensaje);
+                } else {
+                    mensaje = "Conexion negada";
                     out.writeUTF(mensaje);
                 }
                 while (true){
@@ -42,9 +44,8 @@ public class ServerCentralThread extends Thread {
                 }
             }
         }
-        catch (Exception e) {
+        catch (IOException e) {
             System.err.println(e.getMessage());
-            System.exit(1);
         }
     }
 }

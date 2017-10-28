@@ -35,6 +35,7 @@ public class ClienteTCP {
                 mensaje = buffer.readLine();
                 out.writeUTF(mensaje);
             } while (!mensaje.startsWith("fin"));
+            socket.close();
         }
         catch (Exception e) {
             System.err.println(e.getMessage());
