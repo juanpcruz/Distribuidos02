@@ -23,6 +23,13 @@ public class ClienteTCP {
 
             mensaje = in.readUTF();
             System.out.println(mensaje);
+
+            System.out.print(">");
+            mensaje = buffer.readLine();
+            out.writeUTF(mensaje);
+
+            mensaje = in.readUTF();
+            System.out.println(mensaje);
             do {
                 System.out.print(">");
                 mensaje = buffer.readLine();
