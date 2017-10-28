@@ -12,6 +12,8 @@ public class ServerTCP {
                 socketBienvenida = server.accept();
                 ServerCentralThread thread1 = new ServerCentralThread(socketBienvenida);
                 thread1.run();
+                //Para hacer andar el thread es con el metodo start
+                //thread1.start();
                 server.close();
             }
         }
