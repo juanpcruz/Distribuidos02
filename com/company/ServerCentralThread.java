@@ -24,14 +24,14 @@ public class ServerCentralThread extends Thread {
 
                 mensaje = "Seleccione servidor a ingresar: \n";
                 for(int i=0; i<distritos.size();i++) {
-                    mensaje = mensaje + (i + 1) + ") " + distritos.get(i).get(2) + "\n";
+                    mensaje = mensaje + (i + 1) + ") " + distritos.get(i).get(0) + "\n";
                 }
                 out.writeUTF(mensaje);
 
                 //agregar a la lista multicast del distrito y enviar datos del servidor
                 in = new DataInputStream(socketCliente.getInputStream());
                 mensaje = in.readUTF();
-                System.out.println("Permitir conexion a servidor " +distritos.get(Integer.parseInt(mensaje)-1).get(2)+"?" );
+                System.out.println("Permitir conexion a servidor " +distritos.get(Integer.parseInt(mensaje)-1).get(0)+"?" );
                 String respuesta = buffer.readLine();
                 if(respuesta.equals("s") || respuesta.equals("S")){
                     mensaje = "Conexion aceptada";

@@ -12,16 +12,19 @@ public class ServerCentralDistritos extends Thread  {
     public ServerCentralDistritos(ArrayList distrito){
         distritos = distrito;
         ArrayList distritos1 = new ArrayList();
+        distritos1.add("nombre");
         distritos1.add("ip");
         distritos1.add("puerto");
-        distritos1.add("nombre");
+        distritos1.add("puertoB");
 
         distritos.add(distritos1);
 
         ArrayList distrito2 = new ArrayList();
+        distrito2.add("nombre2");
         distrito2.add("ip2");
         distrito2.add("puerto2");
-        distrito2.add("nombre2");
+        distritos1.add("puertoB2");
+
         distritos.add(distrito2);
     }
     public void run() {
@@ -39,9 +42,10 @@ public class ServerCentralDistritos extends Thread  {
                 System.out.print(paqueteRecivido.getAddress()+" dice: "+mensajeRecivido+"\n");
                 String[] partes = mensajeRecivido.split("/");
                 ArrayList nuevoDistrito = new ArrayList();
+                nuevoDistrito.add(partes[0]);
                 nuevoDistrito.add(partes[1]);
                 nuevoDistrito.add(partes[2]);
-                nuevoDistrito.add(partes[0]);
+                nuevoDistrito.add(partes[3]);
                 distritos.add(nuevoDistrito);
             }
         }
