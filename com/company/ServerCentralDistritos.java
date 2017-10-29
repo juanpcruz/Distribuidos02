@@ -57,7 +57,6 @@ public class ServerCentralDistritos extends Thread  {
                     data = mensaje2.getBytes();
                     DatagramPacket sendPacket = new DatagramPacket(data, data.length, paqueteRecibido.getAddress(), paqueteRecibido.getPort());
                     socket.send(sendPacket);
-                    socket.close();
                 } catch (SocketException a) {
 
                 }

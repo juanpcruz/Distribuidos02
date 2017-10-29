@@ -15,6 +15,8 @@ public class ClienteTCP {
         String puerto;
         String mensaje = "";
         Boolean cambioDistrito;
+        MulticastSocket socketMulticast;
+        String[] partes;
 
         List<Titan> capturados;
         List<Titan> asesinados;
@@ -42,13 +44,20 @@ public class ClienteTCP {
             if(mensaje.equals("Conexion aceptada")) {
                 //datos del distrito
                 mensaje = in.readUTF();
-                String[] partes = mensaje.split("/");
+                partes = mensaje.split("/");
                 System.out.println(mensaje);
                 cambioDistrito = false;
-                MulticastSocket socketMulticast = new MulticastSocket(Integer.parseInt(partes[2]));
+                //recepcion de mensajes multicast
+                socketMulticast = new MulticastSocket(Integer.parseInt(partes[2]));
                 socketMulticast.joinGroup(InetAddress.getByName(partes[1]));
-                //recibir mensajes en 1 3 4
-                do {
+                while (!mensaje.equals("asd")) {
+                    byte[] bitsRecibido = new byte[256];
+                    DatagramPacket msgPacket = new DatagramPacket(bitsRecibido, bitsRecibido.length);
+                    socketMulticast.receive(msgPacket);
+                    String mensajeRecibido = new String(msgPacket.getData());
+                    System.out.println(mensajeRecibido);
+                }
+                while (!cambioDistrito) {
                     System.out.println("Lista de acciones:");
                     System.out.println("1) Listar titanes\n2) Cambiar de distrito\n3) Capturar titan\n4) Asesinar titan\n5) Listar titanes capturados\n6) Listar titanes asesinados");
                     //switch con case para cada uno
@@ -59,18 +68,20 @@ public class ClienteTCP {
                             System.out.println("1) Listar titanes)");
                             break;
                         case "2":
-                            System.out.println("2)Cambiooo");
+                            System.out.println("2) Cambiooo");
                             cambioDistrito = true;
                             break;
                     }
                     out.writeUTF(mensaje);
-                } while (!cambioDistrito);
+                }
+                if(cambioDistrito){
+                    //cambiar, dejar en un while true desde despues de conectar al servidor central
+                }
             }
             socket.close();
         }
         catch (Exception e) {
             System.err.println(e.getMessage());
-            System.exit(1);
         }
     }
 }
