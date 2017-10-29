@@ -18,7 +18,7 @@ public class ServerCentralDistritos extends Thread  {
         ArrayList distritos1 = new ArrayList();
         distritos1.add("nombre");
         distritos1.add("ip");
-        distritos1.add("puerto");
+        distritos1.add("5000");
         distritos1.add("puertoB");
 
         distritos.add(distritos1);
@@ -26,7 +26,7 @@ public class ServerCentralDistritos extends Thread  {
         ArrayList distrito2 = new ArrayList();
         distrito2.add("nombre2");
         distrito2.add("ip2");
-        distrito2.add("puerto2");
+        distrito2.add("4000");
         distritos1.add("puertoB2");
 
         distritos.add(distrito2);

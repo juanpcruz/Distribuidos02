@@ -16,6 +16,7 @@ public class ServerCentralThread extends Thread {
         DataInputStream in;
         DataOutputStream out;
         BufferedReader buffer = new BufferedReader(new InputStreamReader(System.in));
+        String datosDistrito;
         try {
             while(true) {
                 // enviar informacion de servidores disponibles
@@ -30,12 +31,16 @@ public class ServerCentralThread extends Thread {
                 mensaje = in.readUTF();
                 //consultar si se otorga permiso de ingreso al servidor
                 System.out.println("Permitir conexion a servidor " + distritos.get(Integer.parseInt(mensaje) - 1).get(0) + "?");
+                //datos del distrito
+                datosDistrito = (String) distritos.get(Integer.parseInt(mensaje) - 1).get(0) + "/"+(String) distritos.get(Integer.parseInt(mensaje) - 1).get(1) + "/"+(String) distritos.get(Integer.parseInt(mensaje) - 1).get(2) + "/"+(String) distritos.get(Integer.parseInt(mensaje) - 1).get(3);
                 String respuesta = buffer.readLine();
                 //si es afirmativo
                 if (respuesta.equals("s") || respuesta.equals("S")) {
                     //agregar a la lista multicast del distrito y enviar datos del servidor
                     mensaje = "Conexion aceptada";
                     out.writeUTF(mensaje);
+                    //enviar datos del distrito
+                    out.writeUTF(datosDistrito);
                     //simple recibo de mensajes
                     while (true) {
                         mensaje = in.readUTF();
