@@ -38,7 +38,7 @@ public class ClienteTCP {
             mensaje = in.readUTF();
             System.out.println(mensaje);
             //si es positiva, entra en envio de mensajes
-            if(mensaje.equals("s") || mensaje.equals("S")) {
+            if(mensaje.equals("Conexion aceptada")) {
                 do {
                     System.out.print(">");
                     mensaje = buffer.readLine();

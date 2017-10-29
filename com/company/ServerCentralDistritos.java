@@ -8,7 +8,10 @@ public class ServerCentralDistritos extends Thread  {
     ArrayList<ArrayList> distritos;
     DatagramSocket socket;
     byte[] mensaje;
+    String mensaje2;
+    byte[] data = new byte[256];
     DatagramPacket paqueteRecibido;
+    DatagramPacket paqueteEnviado;
     public ServerCentralDistritos(ArrayList distrito){
         //distritos sin servidor (solo de prueba de listado)
         distritos = distrito;
@@ -37,20 +40,28 @@ public class ServerCentralDistritos extends Thread  {
                 //en espera de recibir datagramas
                 try {
                     socket.receive(paqueteRecibido);
+                    //traducir datagrama a string y luego obtener informacion de distrito a registrar
+                    String mensajeRecibido = new String(paqueteRecibido.getData());
+                    System.out.print(paqueteRecibido.getAddress()+" dice: "+mensajeRecibido+"\n");
+                    String[] partes = mensajeRecibido.split("/");
+                    ArrayList nuevoDistrito = new ArrayList();
+                    nuevoDistrito.add(partes[0]);
+                    nuevoDistrito.add(partes[1]);
+                    nuevoDistrito.add(partes[2]);
+                    nuevoDistrito.add(partes[3]);
+                    nuevoDistrito.add(partes[4]);
+                    System.out.print("Agregando distrito \n");
+                    distritos.add(nuevoDistrito);
+                    //enviar de vuelta confirmando registro exitoso
+                    mensaje2 = "Se a registrado exitosamente el distrito";
+                    data = mensaje2.getBytes();
+                    DatagramPacket sendPacket = new DatagramPacket(data, data.length, paqueteRecibido.getAddress(), paqueteRecibido.getPort());
+                    socket.send(sendPacket);
+                    socket.close();
                 } catch (SocketException a) {
-                    System.err.println(a.getMessage());
+
                 }
-                //traducir datagrama a string y luego obtener informacion de distrito a registrar
-                String mensajeRecibido = new String(paqueteRecibido.getData());
-                System.out.print(paqueteRecibido.getAddress()+" dice: "+mensajeRecibido+"\n");
-                String[] partes = mensajeRecibido.split("/");
-                ArrayList nuevoDistrito = new ArrayList();
-                nuevoDistrito.add(partes[0]);
-                nuevoDistrito.add(partes[1]);
-                nuevoDistrito.add(partes[2]);
-                nuevoDistrito.add(partes[3]);
-                distritos.add(nuevoDistrito);
-                //enviar de vuelta confirmando registro exitoso
+
             }
         }
         catch (IOException e){
