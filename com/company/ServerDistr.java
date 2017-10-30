@@ -15,8 +15,8 @@ public class ServerDistr {
                                                        // por eso lo cree denuevo aca dentro, luego no supe inicializarlo
                                                     // por eso puse ArrayList para que no tirara errores
 
-        List<Titan> capturados = new ArrayList();
-        List<Titan> asesinados = new ArrayList();
+        List<Titan> capturados = new ArrayList<>();
+        List<Titan> asesinados = new ArrayList<>();
 
 
         ServerDistrThread recepcionPetiticones;

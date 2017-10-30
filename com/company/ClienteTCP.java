@@ -2,6 +2,7 @@ package com.company;
 
 import java.net.*;
 import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ClienteTCP {
@@ -23,9 +24,9 @@ public class ClienteTCP {
         String[] informacionDistrito;
         String titan;
 
-        List<Titan> titatesDistrito; //lista "sincronizada" con la lista de titanes del distrito
-        List<Titan> capturados;
-        List<Titan> asesinados;
+        List<Titan> titanesDistrito = new ArrayList<>(); //lista "sincronizada" con la lista de titanes del distrito
+        List<Titan> capturados = new ArrayList<>();
+        List<Titan> asesinados = new ArrayList<>();
 
         try {
             //Primero establece una conexion tcp con el servidor central, de donde obtendra la informacion del distrito escogido.
@@ -59,7 +60,7 @@ public class ClienteTCP {
                 //datos del distrito
                 mensaje = in.readUTF();
                 //creacion de thread encargado de recibir los datagramas en multicast
-                recepcionMulticast = new ClienteTCPthread(mensaje); // falta que reciba las listaS de titanes para modificarlas
+                recepcionMulticast = new ClienteTCPthread(mensaje,titanesDistrito,capturados,asesinados); // falta que reciba las listaS de titanes para modificarlas
                 recepcionMulticast.start();
                 //envio del mensaje de saludo
                 socketUDP = new DatagramSocket(4200);
@@ -73,6 +74,8 @@ public class ClienteTCP {
                 String mensajeRecibido = new String(paqueteRecibido.getData());
                 System.out.print(mensajeRecibido);//aca manipular mensajeRecibido para guardarlos en la lista
                 socketUDP.close();
+
+                titanesDistrito = superUnpack(mensajeRecibido);
 
                 cambioDistrito = false;
                 while (!cambioDistrito) {
@@ -118,5 +121,19 @@ public class ClienteTCP {
         catch (Exception e) {
             System.err.println(e.getMessage());
         }
+    }
+    public static List<Titan> superUnpack(String mensaje){
+        String[] split = mensaje.split("|");
+        String[] split2;
+        List<Titan> resultado = null;
+        for(String i:split){
+            split2=i.split("/");
+            Titan aux = new Titan(split2[1],split2[2],null);
+            aux.setId(Integer.parseInt(split2[0]));
+            aux.setUltimoDistrito(split2[3]);
+            resultado.add(aux);
+            return resultado;
+        }
+        return null;
     }
 }

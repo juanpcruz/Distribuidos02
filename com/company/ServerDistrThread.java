@@ -55,7 +55,7 @@ public class ServerDistrThread extends Thread{
                     if (accion.equals("Capturar")){
                         Titan capturado = captura(Id);
                         if(capturado!=null){
-                            mensajeEnviado = "Titan "+capturado.getNombre()+"capturado por "+
+                            mensajeEnviado = capturado.getId()+"capturado"+
                                     socketUDP.getRemoteSocketAddress().toString();
                             capturados.add(capturado);
                         }
@@ -64,7 +64,7 @@ public class ServerDistrThread extends Thread{
                     if (accion.equals("Asesinar")){
                         Titan asesinado = muerte(Id);
                         if(asesinado!=null){
-                            mensajeEnviado = "Titan "+asesinado.getNombre()+"asesinado por "+
+                            mensajeEnviado = asesinado.getId()+"asesinado"+
                                     socketUDP.getRemoteSocketAddress().toString();
                             asesinados.add(asesinado);
                         }

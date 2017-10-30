@@ -57,6 +57,12 @@ public class Titan {
         this.ultimoDistrito = ultimoDistrito.getNombre();
     }
 
+    public void setId(int id){this.id=id; }
+
+    public void setUltimoDistrito(String ultimoDistrito) {
+        this.ultimoDistrito = ultimoDistrito;
+    }
+
     //El codigo de abajo era para probar que el ID fuese estatico
 
     //public static void main(String[] args) {
