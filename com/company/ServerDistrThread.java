@@ -1,9 +1,10 @@
 package com.company;
 
-import java.net.*;
-import java.io.*;
-import java.util.ArrayList;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ServerDistrThread extends Thread{
     String[] informacionDistrito;
@@ -14,15 +15,22 @@ public class ServerDistrThread extends Thread{
     String mensajeRecibido;
     String mensajeEnviado;
     List<Titan> titanes;
+    List<Titan> capturados;
+    List<Titan> asesinados;
     int puertoMult;
     String IPMult;
+    Distrito distrito;
 
 
-    public ServerDistrThread(DatagramSocket socket, List<Titan> listaTitanes, int puertoMulticast, String ipMulticast){
+    public ServerDistrThread(DatagramSocket socket, List<Titan> listaTitanes, List<Titan> capt, List<Titan> ases,
+                             int puertoMulticast, String ipMulticast, Distrito dist){
         socketUDP = socket;
         titanes = listaTitanes;
         puertoMult = puertoMulticast;
         IPMult = ipMulticast;
+        distrito = dist;
+        capturados=capt;
+        asesinados=ases;
     }
     public void run() {
         try {
@@ -32,11 +40,52 @@ public class ServerDistrThread extends Thread{
                 socketUDP.receive(paqueteRecibido);
                 String mensajeRecibido = new String(paqueteRecibido.getData());
                 //si el mensaje es Hola, se debe responder con la lista actual de titanes
-                if (mensajeRecibido.equals("Hola")) {
-                    mensajeEnviado = "lista de titanes";
+                if (mensajeRecibido.equals("Listar")) {
+                    mensajeEnviado = titanes.stream().map(Titan::getNombre)
+                            .collect(Collectors.joining("/"));
                     data = mensajeEnviado.getBytes();
                     paqueteEnviado = new DatagramPacket(data, data.length, paqueteRecibido.getAddress(), paqueteRecibido.getPort());
                     socketUDP.send(paqueteEnviado);
+                    continue;
+                }
+                if (mensajeRecibido.equals("Capturados")){
+                    mensajeEnviado = capturados.stream().map(Titan::getNombre)
+                            .collect(Collectors.joining("/"));
+                    data = mensajeEnviado.getBytes();
+                    paqueteEnviado = new DatagramPacket(data, data.length, paqueteRecibido.getAddress(), paqueteRecibido.getPort());
+                    socketUDP.send(paqueteEnviado);
+                    continue;
+                }
+                if (mensajeRecibido.equals("Asesinados")){
+                    mensajeEnviado = asesinados.stream().map(Titan::getNombre)
+                            .collect(Collectors.joining("/"));
+                    data = mensajeEnviado.getBytes();
+                    paqueteEnviado = new DatagramPacket(data, data.length, paqueteRecibido.getAddress(), paqueteRecibido.getPort());
+                    socketUDP.send(paqueteEnviado);
+                    continue;
+                }
+                else {
+                    //Mensaje: Accion + Id del Titan
+                    String accion = mensajeRecibido.split(" ")[0];
+                    int Id = Integer.parseInt(mensajeRecibido.split(" ")[1]);
+                    //Accion de captura
+                    if (accion.equals("Capturar")){
+                        Titan capturado = captura(Id);
+                        if(capturado!=null){
+                            mensajeEnviado = "Titan "+capturado.getNombre()+"capturado por "+
+                                    socketUDP.getRemoteSocketAddress().toString();
+                            capturados.add(capturado);
+                        }
+                    }
+                    //Accion de asesinato
+                    if (accion.equals("Asesinar")){
+                        Titan asesinado = muerte(Id);
+                        if(asesinado!=null){
+                            mensajeEnviado = "Titan "+asesinado.getNombre()+"asesinado por "+
+                                    socketUDP.getRemoteSocketAddress().toString();
+                            asesinados.add(asesinado);
+                        }
+                    }
                 }
                 //Aca si es eliminar, borrar de la lista de titanes(supongo que List es referenciada)
                 //luego enviar por multicast info de quien lo mato/captura
@@ -49,5 +98,25 @@ public class ServerDistrThread extends Thread{
         catch (Exception e){
             System.err.println(e.getMessage());
         }
+    }
+    public Titan captura(int ID) {
+        for (Titan i : titanes) {
+            if (i.getId() == ID && (i.tipoNormal() || i.tipoCambiante())) {
+                i.setUltimoDistrito(distrito);
+                titanes.remove(i);
+                return i;
+            }
+        }
+        return null;
+    }
+    public Titan muerte(int ID) {
+        for (Titan i : titanes) {
+            if (i.getId() == ID && (i.tipoNormal() || i.tipoExcentrico())) {
+                i.setUltimoDistrito(distrito);
+                titanes.remove(i);
+                return i;
+            }
+        }
+        return null;
     }
 }

@@ -5,13 +5,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ServerDistr {
-    private Distrito distrito;
+    private static Distrito distrito;
     private List<Titan> titanes;
+    private List<Titan> capturados;
+    private List<Titan> asesinados;
 
     public static void main(String argv[]) throws Exception {
         ArrayList<Titan> titanes = new ArrayList(); //---> me tiraba problemas al pasarlo a ServerDistrThread por algo de static
                                                        // por eso lo cree denuevo aca dentro, luego no supe inicializarlo
                                                     // por eso puse ArrayList para que no tirara errores
+
+        List<Titan> capturados = new ArrayList();
+        List<Titan> asesinados = new ArrayList();
+
+
         ServerDistrThread recepcionPetiticones;
         BufferedReader buffer = new BufferedReader(new InputStreamReader(System.in));
         DatagramSocket socketUDP = new DatagramSocket(5000);
@@ -58,7 +65,8 @@ public class ServerDistr {
         //multicast
         socketUDP = new DatagramSocket(puerto);
         //creacion del thread encargado de peticiones
-        recepcionPetiticones = new ServerDistrThread(socketUDP, titanes, puertoMulticast, IPMulticast);
+        recepcionPetiticones = new ServerDistrThread(socketUDP, titanes, capturados, asesinados,
+                puertoMulticast, IPMulticast, distrito);
         recepcionPetiticones.start();
         while(true) {
             //aqui colocar leer si se agrega un titan, para luego enviarlo por multicast
@@ -69,26 +77,6 @@ public class ServerDistr {
                 socketUDP.send(paqueteEnviado);
             }
         }
-    }
-    public Titan captura(int ID) {
-        for (Titan i : titanes) {
-            if (i.getId() == ID && (i.tipoNormal() || i.tipoCambiante())) {
-                i.setUltimoDistrito(distrito);
-                titanes.remove(i);
-                return i;
-            }
-        }
-        return null;
-    }
-    public Titan muerte(int ID) {
-        for (Titan i : titanes) {
-            if (i.getId() == ID && (i.tipoNormal() || i.tipoExcentrico())) {
-                i.setUltimoDistrito(distrito);
-                titanes.remove(i);
-                return i;
-            }
-        }
-        return null;
     }
 }
 

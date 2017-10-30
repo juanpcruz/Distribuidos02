@@ -21,6 +21,7 @@ public class ClienteTCP {
         Boolean cambioDistrito;
         ClienteTCPthread recepcionMulticast;
         String[] informacionDistrito;
+        String titan;
 
         List<Titan> titatesDistrito; //lista "sincronizada" con la lista de titanes del distrito
         List<Titan> capturados;
@@ -76,21 +77,37 @@ public class ClienteTCP {
                 cambioDistrito = false;
                 while (!cambioDistrito) {
                     System.out.println("Lista de acciones:");
-                    System.out.println("1) Listar titanes\n2) Cambiar de distrito\n3) Capturar titan\n4) Asesinar titan\n5) Listar titanes capturados\n6) Listar titanes asesinados");
+                    System.out.println("1) Listar titanes\n2) Cambiar de distrito\n3) Capturar titan\n4) " +
+                            "Asesinar titan\n5) Listar titanes capturados\n6) Listar titanes asesinados");
+                    System.out.println("Ingrese el número de cada acción.");
                     //switch con case para cada uno
                     System.out.print(">");
                     mensaje = buffer.readLine();
                     switch (mensaje){
                         case "1":
-                            System.out.println("1) Listar titanes)");
-                            break;
+                            mensaje = "Listar";
                         case "2":
                             System.out.println("2) Cambiooo");//cambiar, dejar en un while true desde conectar al servidor central
                                                                 //para que reenvie los servidores (como si se reconectara)
                             cambioDistrito = true;
                             break;
+                        case "3":
+                            System.out.print("Ingrese ID de titan a capturar:\n>");
+                            titan = buffer.readLine();
+                            mensaje = "Capturar "+titan;
+                        case "4":
+                            System.out.print("Ingrese ID de titan a asesinar:\n>");
+                            titan = buffer.readLine();
+                            mensaje = "Asesinar "+titan;
+                        case "5":
+                            mensaje = "Capturados";
+                        case "6":
+                            mensaje = "Asesinados";
                     }
-                    out.writeUTF(mensaje);
+                    data = mensaje.getBytes();
+                    paqueteEnviado = new DatagramPacket(data, data.length, InetAddress.getByName(informacionDistrito[3]),
+                            Integer.parseInt(informacionDistrito[4]));
+                    socketUDP.send(paqueteEnviado);
                 }
             }
             socketTCP.close();
