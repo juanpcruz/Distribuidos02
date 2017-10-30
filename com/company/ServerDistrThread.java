@@ -40,25 +40,8 @@ public class ServerDistrThread extends Thread{
                 socketUDP.receive(paqueteRecibido);
                 String mensajeRecibido = new String(paqueteRecibido.getData());
                 //si el mensaje es Hola, se debe responder con la lista actual de titanes
-                if (mensajeRecibido.equals("Listar")) {
-                    mensajeEnviado = titanes.stream().map(Titan::getNombre)
-                            .collect(Collectors.joining("/"));
-                    data = mensajeEnviado.getBytes();
-                    paqueteEnviado = new DatagramPacket(data, data.length, paqueteRecibido.getAddress(), paqueteRecibido.getPort());
-                    socketUDP.send(paqueteEnviado);
-                    continue;
-                }
-                if (mensajeRecibido.equals("Capturados")){
-                    mensajeEnviado = capturados.stream().map(Titan::getNombre)
-                            .collect(Collectors.joining("/"));
-                    data = mensajeEnviado.getBytes();
-                    paqueteEnviado = new DatagramPacket(data, data.length, paqueteRecibido.getAddress(), paqueteRecibido.getPort());
-                    socketUDP.send(paqueteEnviado);
-                    continue;
-                }
-                if (mensajeRecibido.equals("Asesinados")){
-                    mensajeEnviado = asesinados.stream().map(Titan::getNombre)
-                            .collect(Collectors.joining("/"));
+                if (mensajeRecibido.equals("Hola")) {
+                    mensajeEnviado = superJoin(titanes);
                     data = mensajeEnviado.getBytes();
                     paqueteEnviado = new DatagramPacket(data, data.length, paqueteRecibido.getAddress(), paqueteRecibido.getPort());
                     socketUDP.send(paqueteEnviado);
@@ -118,5 +101,12 @@ public class ServerDistrThread extends Thread{
             }
         }
         return null;
+    }
+    public String superJoin(List<Titan> lista){
+        StringBuilder resultado = new StringBuilder();
+        for(Titan i:lista){
+            resultado.append(i.getId()+"/"+i.getNombre()+"/"+i.getTipo()+"/"+i.getUltimoDistrito()+"|");
+        }
+        return resultado.toString();
     }
 }

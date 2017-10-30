@@ -85,7 +85,8 @@ public class ClienteTCP {
                     mensaje = buffer.readLine();
                     switch (mensaje){
                         case "1":
-                            mensaje = "Listar";
+                            System.out.println();
+                            continue;
                         case "2":
                             System.out.println("2) Cambiooo");//cambiar, dejar en un while true desde conectar al servidor central
                                                                 //para que reenvie los servidores (como si se reconectara)
@@ -100,9 +101,11 @@ public class ClienteTCP {
                             titan = buffer.readLine();
                             mensaje = "Asesinar "+titan;
                         case "5":
-                            mensaje = "Capturados";
+                            System.out.println();
+                            continue;
                         case "6":
-                            mensaje = "Asesinados";
+                            System.out.println();
+                            continue;
                     }
                     data = mensaje.getBytes();
                     paqueteEnviado = new DatagramPacket(data, data.length, InetAddress.getByName(informacionDistrito[3]),
