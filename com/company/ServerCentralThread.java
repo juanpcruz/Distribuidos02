@@ -5,10 +5,10 @@ import java.io.*;
 import java.util.*;
 
 public class ServerCentralThread extends Thread {
-    Socket socketCliente;
+    Socket socketTCP;
     ArrayList<ArrayList> distritos;
     public ServerCentralThread(Socket socketBienvenida, ArrayList distrito){
-        socketCliente = socketBienvenida;
+        socketTCP = socketBienvenida;
         distritos = distrito;
     }
     public void run() {
@@ -20,14 +20,14 @@ public class ServerCentralThread extends Thread {
         try {
             while(true) {
                 // enviar informacion de servidores disponibles
-                out = new DataOutputStream(socketCliente.getOutputStream());
+                out = new DataOutputStream(socketTCP.getOutputStream());
                 mensaje = "Seleccione servidor a ingresar: \n";
                 for (int i = 0; i < distritos.size(); i++) {
                     mensaje = mensaje + (i + 1) + ") " + distritos.get(i).get(0) + "\n";
                 }
                 out.writeUTF(mensaje);
                 //recibir respuesta de servidor deseado
-                in = new DataInputStream(socketCliente.getInputStream());
+                in = new DataInputStream(socketTCP.getInputStream());
                 mensaje = in.readUTF();
                 //consultar si se otorga permiso de ingreso al servidor
                 System.out.println("Permitir conexion a servidor " + distritos.get(Integer.parseInt(mensaje) - 1).get(0) + "?");
@@ -36,7 +36,6 @@ public class ServerCentralThread extends Thread {
                 String respuesta = buffer.readLine();
                 //si es afirmativo
                 if (respuesta.equals("s") || respuesta.equals("S")) {
-                    //agregar a la lista multicast del distrito y enviar datos del servidor
                     mensaje = "Conexion aceptada";
                     out.writeUTF(mensaje);
                     //enviar datos del distrito
