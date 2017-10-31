@@ -126,7 +126,7 @@ public class ClienteTCP {
         }
     }
     public static List<Titan> superUnpack(String mensaje){
-        String[] split = mensaje.split("|");
+        String[] split = mensaje.split("#");
         String[] split2;
         List<Titan> resultado = null;
         for(String i:split){
@@ -135,8 +135,7 @@ public class ClienteTCP {
             aux.setId(Integer.parseInt(split2[0]));
             aux.setUltimoDistrito(split2[3]);
             resultado.add(aux);
-            return resultado;
         }
-        return null;
+        return resultado;
     }
 }

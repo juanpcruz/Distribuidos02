@@ -113,7 +113,7 @@ public class ServerDistrThread extends Thread{
     public String superJoin(List<Titan> lista){
         StringBuilder resultado = new StringBuilder();
         for(Titan i:lista){
-            resultado.append(i.getId()+"/"+i.getNombre()+"/"+i.getTipo()+"/"+i.getUltimoDistrito()+"|");
+            resultado.append(i.getId()+"/"+i.getNombre()+"/"+i.getTipo()+"/"+i.getUltimoDistrito()+"#");
         }
         return resultado.toString();
     }
