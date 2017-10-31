@@ -69,7 +69,7 @@ public class ClienteTCP {
                 paqueteRecibido = new DatagramPacket(data, 256);
                 informacionDistrito = mensaje.split("/");
                 data = "Hola".getBytes();
-                paqueteEnviado = new DatagramPacket(data, data.length, InetAddress.getByName(informacionDistrito[3]),5300);
+                paqueteEnviado = new DatagramPacket(data, data.length, InetAddress.getByName(informacionDistrito[3]),Integer.parseInt(informacionDistrito[4]));
                 socketUDP.send(paqueteEnviado);
                 //recepcion de la lista de titanes
                 System.out.println("Esperando lista de titanes...");

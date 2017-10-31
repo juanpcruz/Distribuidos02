@@ -52,7 +52,7 @@ public class ServerDistr {
         mensaje = mensaje + "/" +ip;
         System.out.print("Puerto peticiones:\n");
         puerto = Integer.parseInt(buffer.readLine());
-        mensaje = mensaje + "/" + puerto;
+        mensaje = mensaje + "/" + puerto+"/";
         //envio de la informacion al servidor central para su registro
         data = mensaje.getBytes();
         paqueteEnviado = new DatagramPacket(data, data.length, IPAddress, 5050);

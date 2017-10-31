@@ -32,7 +32,7 @@ public class ServerCentralThread extends Thread {
                 //consultar si se otorga permiso de ingreso al servidor
                 System.out.println("Permitir conexion a servidor " + distritos.get(Integer.parseInt(mensaje) - 1).get(0) + "?");
                 //datos del distrito
-                datosDistrito = (String) distritos.get(Integer.parseInt(mensaje) - 1).get(0) + "/"+(String) distritos.get(Integer.parseInt(mensaje) - 1).get(1) + "/"+(String) distritos.get(Integer.parseInt(mensaje) - 1).get(2) + "/"+(String) distritos.get(Integer.parseInt(mensaje) - 1).get(3)+"/"+(String) distritos.get(Integer.parseInt(mensaje) - 1).get(4);
+                datosDistrito = (String) distritos.get(Integer.parseInt(mensaje) - 1).get(0) + "/"+(String) distritos.get(Integer.parseInt(mensaje) - 1).get(1) + "/"+(String) distritos.get(Integer.parseInt(mensaje) - 1).get(2) + "/"+(String) distritos.get(Integer.parseInt(mensaje) - 1).get(3)+"/"+(String) distritos.get(Integer.parseInt(mensaje) - 1).get(4)+"/";
                 String respuesta = buffer.readLine();
                 //si es afirmativo
                 if (respuesta.equals("s") || respuesta.equals("S")) {
