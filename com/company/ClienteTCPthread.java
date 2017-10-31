@@ -42,23 +42,24 @@ public class ClienteTCPthread extends Thread {
                     titanes.add(new Titan(mensajeRecibido.split(" ")[2], mensajeRecibido.split(" ")[3],mensajeRecibido.split(" ")[4]));
                     System.out.print(">");
                 }else {
-                    String culpable = mensajeRecibido.split(" ")[2];
+                    String culpable = mensajeRecibido.split(" ")[2].replace("/","");
                     System.out.println(culpable);
                     System.out.println(InetAddress.getLocalHost().getHostAddress());
 
                     if (culpable.equals(InetAddress.getLocalHost().getHostAddress())) {
                         if (accion.equals("capturado")) {
-                            titan = pop1(capturados, id);
+                            titan = pop1(titanes, id);
                             System.out.println("Capturado: titan " + titan.getNombre() + ",id " + titan.getId() +
                                     ", tipo " + titan.getTipo());
+                            capturados.add(titan);
                         } else {
-                            titan = pop1(asesinados, id);
+                            titan = pop1(titanes, id);
                             System.out.println("Asesinado: titan " + titan.getNombre() + ",id " + titan.getId() +
                                     ", tipo " + titan.getTipo());
-
+                            asesinados.add(titan);
                         }
                     } else {
-                        titan = pop2(titanes, id);
+                        titan = pop1(titanes, id);
                         System.out.println("Titan " + titan.getNombre() + " " + accion + " por " + culpable);
                     }
                 }
