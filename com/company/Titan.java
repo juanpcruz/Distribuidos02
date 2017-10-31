@@ -8,12 +8,12 @@ public class Titan {
     private String nombre;
     private String tipo;
     private String ultimoDistrito;
-    public Titan(String name, String type, Distrito distrito){
+    public Titan(String name, String type, String distrito){
         id= IDcounter;
         IDcounter++;
         nombre = name;
         tipo = type;
-        ultimoDistrito = distrito.getNombre();
+        ultimoDistrito = distrito;
     }
 
     public int getId() {
@@ -51,10 +51,6 @@ public class Titan {
             return true;
         }
         return false;
-    }
-
-    public void setUltimoDistrito(Distrito ultimoDistrito) {
-        this.ultimoDistrito = ultimoDistrito.getNombre();
     }
 
     public void setId(int id){this.id=id; }

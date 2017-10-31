@@ -116,6 +116,6 @@ public class ServerDistrThread extends Thread{
         for(Titan i:lista){
             resultado = resultado.concat(i.getId()+"/"+i.getNombre()+"/"+i.getTipo()+"/"+i.getUltimoDistrito()+"#");
         }
-        return resultado;
+        return resultado+"$";
     }
 }

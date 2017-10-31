@@ -132,8 +132,12 @@ public class ClienteTCP {
         String[] split2;
         List<Titan> resultado = new ArrayList<>();
         for(String i:split){
+            if(i.startsWith("$")){
+                break;
+            }
             split2=i.split("/");
-            Titan aux = new Titan(split2[1],split2[2],distr);
+            //Titan aux = new Titan(split2[1],split2[2],distr);
+            Titan aux = new Titan(split2[1],split2[2],split2[3]);
             aux.setId(Integer.parseInt(split2[0]));
             aux.setUltimoDistrito(split2[3]);
             resultado.add(aux);
