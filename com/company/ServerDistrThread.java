@@ -44,6 +44,7 @@ public class ServerDistrThread extends Thread{
                 System.out.println("Se recibio el mensaje: " +mensajeRecibido +"/");
                 //si el mensaje es Hola, se debe responder con la lista actual de titanes
                 if (mensajeRecibido.split(" ")[0].equals("Hola")) {
+                    System.out.println("Se esta enviando titanes a "+ paqueteRecibido.getAddress()+ paqueteRecibido.getPort());
                     mensajeEnviado = superJoin(titanes);
                     data = mensajeEnviado.getBytes();
                     paqueteEnviado = new DatagramPacket(data, data.length, paqueteRecibido.getAddress(), paqueteRecibido.getPort());

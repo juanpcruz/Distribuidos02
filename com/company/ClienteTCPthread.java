@@ -26,10 +26,12 @@ public class ClienteTCPthread extends Thread {
             //Thread encargado de la recepcion asincronica de datagramas multicast por parte del distrito(ServerDistr)
             socketMulticast = new MulticastSocket(Integer.parseInt(informacionDistrito[2]));
             socketMulticast.joinGroup(InetAddress.getByName(informacionDistrito[1]));
+            System.out.println("He sido asignado al grupo multicast: "+ Integer.parseInt(informacionDistrito[2]) +InetAddress.getByName(informacionDistrito[1]));
             while(true) {
                 byte[] bitsRecibido = new byte[256];
                 paqueteRecibido = new DatagramPacket(bitsRecibido, bitsRecibido.length);
                 socketMulticast.receive(paqueteRecibido);
+                System.out.println("Llego multicast!!!!");
                 mensajeRecibido = new String(paqueteRecibido.getData());
                 Titan titan;
 
