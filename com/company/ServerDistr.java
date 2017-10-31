@@ -5,19 +5,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ServerDistr {
-    private static Distrito distrito;
-    private List<Titan> titanes;
-    private List<Titan> capturados;
-    private List<Titan> asesinados;
 
     public static void main(String argv[]) throws Exception {
-        ArrayList<Titan> titanes = new ArrayList(); //---> me tiraba problemas al pasarlo a ServerDistrThread por algo de static
+        //ArrayList<Titan> titanes = new ArrayList(); //---> me tiraba problemas al pasarlo a ServerDistrThread por algo de static
                                                        // por eso lo cree denuevo aca dentro, luego no supe inicializarlo
                                                     // por eso puse ArrayList para que no tirara errores
-
+        List<Titan> titanes = new ArrayList();
         List<Titan> capturados = new ArrayList<>();
         List<Titan> asesinados = new ArrayList<>();
-
+        Distrito distrito;
 
         ServerDistrThread recepcionPetiticones;
         BufferedReader buffer = new BufferedReader(new InputStreamReader(System.in));
@@ -36,6 +32,8 @@ public class ServerDistr {
         //luego se crea un thread encargado de la recepcion de datagramas de peticiones de los clientes y su respuesta correspondiente,
         //tanto en unicast como multicast.
         //Este thread queda a cargo de la creacion de titanes y el envio de alerta multicast sobre este evento.
+        distrito = new Distrito("tumatrito");
+        titanes.add(new Titan("tuma", "exentrico", distrito));
 
         //ingreso de informacion del distrito/servidor
         String mensaje = "";
@@ -69,9 +67,9 @@ public class ServerDistr {
                 puertoMulticast, IPMulticast, distrito);
         recepcionPetiticones.start();
         while(true) {
-            System.out.println("Agregar titan? (s)");
+            System.out.println("Agregar titan? (agregar)");
             //aqui colocar leer si se agrega un titan, para luego enviarlo por multicast
-            if(buffer.readLine().equals("s")) {
+            if(buffer.readLine().equals("agregar")) {
                 System.out.println("Mensaje del titan: ");
                 mensaje =buffer.readLine(); //informacion del titan para enviar
                 data = mensaje.getBytes();
