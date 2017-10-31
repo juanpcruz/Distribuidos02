@@ -13,7 +13,7 @@ public class ServerDistr {
         List<Titan> titanes = new ArrayList();
         List<Titan> capturados = new ArrayList<>();
         List<Titan> asesinados = new ArrayList<>();
-        Distrito distrito;
+        String distrito;
         String nombreTitan;
         String tipoTitan;
         Titan nuevoTitan;
@@ -39,7 +39,7 @@ public class ServerDistr {
         String mensaje = "";
         System.out.print("Nombre de distrito a registrar:\n");
         mensaje = mensaje + buffer.readLine();
-        distrito = new Distrito(mensaje);
+        distrito = mensaje;
         System.out.print("IP Multicast:\n");
         IPMulticast = buffer.readLine();
         mensaje = mensaje + "/" + IPMulticast;
@@ -77,7 +77,7 @@ public class ServerDistr {
                 tipoTitan = buffer.readLine();
                 nuevoTitan = new Titan(nombreTitan, tipoTitan, distrito);
                 titanes.add( nuevoTitan );
-                mensaje = nuevoTitan.getId()+" "+ "aparece" +" "+nuevoTitan.getNombre()+" "+nuevoTitan.getTipo()+" ";
+                mensaje = nuevoTitan.getId()+" "+ "aparece" +" "+nuevoTitan.getNombre()+" "+nuevoTitan.getTipo()+" "+nuevoTitan.getUltimoDistrito()+" ";
                 data = mensaje.getBytes();
                 paqueteEnviado = new DatagramPacket(data, data.length, InetAddress.getByName(IPMulticast), puertoMulticast);
                 socketUDP.send(paqueteEnviado);

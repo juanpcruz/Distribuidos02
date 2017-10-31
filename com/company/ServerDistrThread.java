@@ -18,11 +18,11 @@ public class ServerDistrThread extends Thread{
     List<Titan> asesinados;
     int puertoMult;
     String IPMult;
-    Distrito distrito;
+    String distrito;
 
 
     public ServerDistrThread(DatagramSocket socket, List<Titan> listaTitanes, List<Titan> capt, List<Titan> ases,
-                             int puertoMulticast, String ipMulticast, Distrito dist){
+                             int puertoMulticast, String ipMulticast, String dist){
         socketUDP = socket;
         titanes = listaTitanes;
         puertoMult = puertoMulticast;
@@ -33,7 +33,6 @@ public class ServerDistrThread extends Thread{
     }
     public void run() {
         try {
-            System.out.println("Inicio de thread encargado de escuchar peticiones");
             data = new byte[256];
             paqueteRecibido = new DatagramPacket(data, 256);
             while(true) {
@@ -45,17 +44,14 @@ public class ServerDistrThread extends Thread{
                 System.out.println("Se recibio el mensaje: " +mensajeRecibido +"/");
                 //si el mensaje es Hola, se debe responder con la lista actual de titanes
                 if (mensajeRecibido.split(" ")[0].equals("Hola")) {
-                    System.out.print("asdlll");
                     mensajeEnviado = superJoin(titanes);
                     data = mensajeEnviado.getBytes();
                     System.out.print("asd");
                     paqueteEnviado = new DatagramPacket(data, data.length, paqueteRecibido.getAddress(), paqueteRecibido.getPort());
-                    System.out.print("asdqwe");
                     socketUDP.send(paqueteEnviado);
                     continue;
                 }
                 else {
-                    System.out.print("asdjhjhjhj");
                     //Mensaje: Accion + Id del Titan
                     String accion = mensajeRecibido.split(" ")[0];
                     int Id = Integer.parseInt(mensajeRecibido.split(" ")[1]);

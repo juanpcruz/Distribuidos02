@@ -38,6 +38,7 @@ public class ClienteTCPthread extends Thread {
                 String accion = mensajeRecibido.split(" ")[1];
                 if(accion.equals("aparece")){
                     System.out.println("Aparece titan "+mensajeRecibido.split(" ")[2]+ "del tipo "+mensajeRecibido.split(" ")[3]);
+                    titanes.add(new Titan(mensajeRecibido.split(" ")[2], mensajeRecibido.split(" ")[3],mensajeRecibido.split(" ")[4]));
                     continue;
                 }
                 String culpable = mensajeRecibido.split(" ")[2];

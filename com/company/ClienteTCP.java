@@ -63,7 +63,6 @@ public class ClienteTCP {
                 //creacion de thread encargado de recibir los datagramas en multicast
                 recepcionMulticast = new ClienteTCPthread(mensaje,titanesDistrito,capturados,asesinados); // falta que reciba las listaS de titanes para modificarlas
                 recepcionMulticast.start();
-                System.out.println("Enviando saludo...");
                 //envio del mensaje de saludo
                 socketUDP = new DatagramSocket(4200);
                 paqueteRecibido = new DatagramPacket(data, 256);
@@ -72,11 +71,8 @@ public class ClienteTCP {
                 paqueteEnviado = new DatagramPacket(data, data.length, InetAddress.getByName(informacionDistrito[3]),Integer.parseInt(informacionDistrito[4]));
                 socketUDP.send(paqueteEnviado);
                 //recepcion de la lista de titanes
-                System.out.println("Esperando lista de titanes...");
                 socketUDP.receive(paqueteRecibido);
                 String mensajeRecibido = new String(paqueteRecibido.getData());
-                System.out.println("Se recibio lista de titanes: "+mensajeRecibido);//aca manipular mensajeRecibido para guardarlos en la lista
-
                 titanesDistrito = superUnpack(mensajeRecibido);
 
                 cambioDistrito = false;
@@ -84,13 +80,14 @@ public class ClienteTCP {
                     System.out.println("Lista de acciones:");
                     System.out.println("1) Listar titanes\n2) Cambiar de distrito\n3) Capturar titan\n4) " +
                             "Asesinar titan\n5) Listar titanes capturados\n6) Listar titanes asesinados");
-                    System.out.println("Ingrese el número de cada acción.");
-                    //switch con case para cada uno
+                    System.out.println("Ingrese el número de la acción.");
                     System.out.print(">");
                     mensaje = buffer.readLine();
                     switch (mensaje){
                         case "1":
-                            System.out.println();
+                            for(Titan i:titanesDistrito) {
+                                System.out.println("Titan: "+i.getNombre()+", Tipo: "+ i.getTipo());
+                            }
                             continue;
                         case "2":
                             System.out.println("2) Cambiooo");//cambiar, dejar en un while true desde conectar al servidor central
@@ -108,10 +105,14 @@ public class ClienteTCP {
                             mensaje = "Asesinar "+titan+ " ";
                             break;
                         case "5":
-                            System.out.println();
+                            for(Titan i:capturados) {
+                                System.out.println("Titan: "+i.getNombre()+", Tipo: "+ i.getTipo());
+                            }
                             continue;
                         case "6":
-                            System.out.println();
+                            for(Titan i:asesinados) {
+                                System.out.println("Titan: "+i.getNombre()+", Tipo: "+ i.getTipo());
+                            }
                             continue;
                     }
                     data = mensaje.getBytes();
@@ -127,7 +128,6 @@ public class ClienteTCP {
         }
     }
     public static List<Titan> superUnpack(String mensaje){
-        Distrito distr = new Distrito("relleno");
         String[] split = mensaje.split("#");
         String[] split2;
         List<Titan> resultado = new ArrayList<>();
@@ -136,12 +136,10 @@ public class ClienteTCP {
                 break;
             }
             split2=i.split("/");
-            //Titan aux = new Titan(split2[1],split2[2],distr);
             Titan aux = new Titan(split2[1],split2[2],split2[3]);
             aux.setId(Integer.parseInt(split2[0]));
             aux.setUltimoDistrito(split2[3]);
             resultado.add(aux);
-            System.out.println("4");
         }
         return resultado;
     }
