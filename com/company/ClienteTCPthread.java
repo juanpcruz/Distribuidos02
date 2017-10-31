@@ -31,7 +31,7 @@ public class ClienteTCPthread extends Thread {
                 paqueteRecibido = new DatagramPacket(bitsRecibido, bitsRecibido.length);
                 socketMulticast.receive(paqueteRecibido);
                 mensajeRecibido = new String(paqueteRecibido.getData());
-
+                System.out.println("Se recibio el titan multicast:" + mensajeRecibido);
                 Titan titan;
 
                 int id = Integer.parseInt(mensajeRecibido.split(" ")[0]);

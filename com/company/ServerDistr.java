@@ -52,7 +52,7 @@ public class ServerDistr {
         mensaje = mensaje + "/" +ip;
         System.out.print("Puerto peticiones:\n");
         puerto = Integer.parseInt(buffer.readLine());
-        mensaje = mensaje + "/" + puerto;
+        mensaje = mensaje + "/" + puerto+"/";
         //envio de la informacion al servidor central para su registro
         data = mensaje.getBytes();
         paqueteEnviado = new DatagramPacket(data, data.length, IPAddress, 5050);
@@ -69,8 +69,10 @@ public class ServerDistr {
                 puertoMulticast, IPMulticast, distrito);
         recepcionPetiticones.start();
         while(true) {
+            System.out.println("Agregar titan? (s)");
             //aqui colocar leer si se agrega un titan, para luego enviarlo por multicast
-            if(buffer.readLine().equals("agregar")) {
+            if(buffer.readLine().equals("s")) {
+                System.out.println("Mensaje del titan: ");
                 mensaje =buffer.readLine(); //informacion del titan para enviar
                 data = mensaje.getBytes();
                 paqueteEnviado = new DatagramPacket(data, data.length, InetAddress.getByName(IPMulticast), puertoMulticast);

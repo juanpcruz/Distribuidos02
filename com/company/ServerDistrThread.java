@@ -4,7 +4,6 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class ServerDistrThread extends Thread{
     String[] informacionDistrito;
@@ -34,20 +33,29 @@ public class ServerDistrThread extends Thread{
     }
     public void run() {
         try {
+            System.out.println("Inicio de thread encargado de escuchar peticiones");
+            data = new byte[256];
+            paqueteRecibido = new DatagramPacket(data, 256);
             while(true) {
                 //Thread encargado de la recepcion asincronica de datagramas unicast por parte de de clientesTCP
                 //Responde por multicast peticiones de asesinato/captura
+                System.out.println("Esperando paquete en thread ...");
                 socketUDP.receive(paqueteRecibido);
                 String mensajeRecibido = new String(paqueteRecibido.getData());
+                System.out.println("Se recibio el mensaje: " +mensajeRecibido +"/");
                 //si el mensaje es Hola, se debe responder con la lista actual de titanes
                 if (mensajeRecibido.equals("Hola")) {
+                    System.out.print("asdlll");
                     mensajeEnviado = superJoin(titanes);
                     data = mensajeEnviado.getBytes();
+                    System.out.print("asd");
                     paqueteEnviado = new DatagramPacket(data, data.length, paqueteRecibido.getAddress(), paqueteRecibido.getPort());
+                    System.out.print("asdqwe");
                     socketUDP.send(paqueteEnviado);
                     continue;
                 }
                 else {
+                    System.out.print("asdjhjhjhj");
                     //Mensaje: Accion + Id del Titan
                     String accion = mensajeRecibido.split(" ")[0];
                     int Id = Integer.parseInt(mensajeRecibido.split(" ")[1]);
@@ -72,7 +80,7 @@ public class ServerDistrThread extends Thread{
                 }
                 //Aca si es eliminar, borrar de la lista de titanes(supongo que List es referenciada)
                 //luego enviar por multicast info de quien lo mato/captura
-                mensajeEnviado = "tuma";
+                //mensajeEnviado = "tuma";
                 data = mensajeEnviado.getBytes();
                 paqueteEnviado = new DatagramPacket(data, data.length, InetAddress.getByName(IPMult), puertoMult);
                 socketUDP.send(paqueteEnviado);
