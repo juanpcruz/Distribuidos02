@@ -68,7 +68,7 @@ public class ClienteTCP {
                 socketUDP = new DatagramSocket(4200);
                 paqueteRecibido = new DatagramPacket(data, 256);
                 informacionDistrito = mensaje.split("/");
-                data = "Hola".getBytes();
+                data = "Hola ".getBytes();
                 paqueteEnviado = new DatagramPacket(data, data.length, InetAddress.getByName(informacionDistrito[3]),Integer.parseInt(informacionDistrito[4]));
                 socketUDP.send(paqueteEnviado);
                 //recepcion de la lista de titanes
@@ -76,9 +76,8 @@ public class ClienteTCP {
                 socketUDP.receive(paqueteRecibido);
                 String mensajeRecibido = new String(paqueteRecibido.getData());
                 System.out.print("Se recibio lista de titanes: "+mensajeRecibido);//aca manipular mensajeRecibido para guardarlos en la lista
-                socketUDP.close();
 
-                titanesDistrito = superUnpack(mensajeRecibido);
+                //titanesDistrito = superUnpack(mensajeRecibido);
 
                 cambioDistrito = false;
                 while (!cambioDistrito) {
@@ -101,11 +100,13 @@ public class ClienteTCP {
                         case "3":
                             System.out.print("Ingrese ID de titan a capturar:\n>");
                             titan = buffer.readLine();
-                            mensaje = "Capturar "+titan;
+                            mensaje = "Capturar "+titan+" ";
+                            break;
                         case "4":
                             System.out.print("Ingrese ID de titan a asesinar:\n>");
                             titan = buffer.readLine();
-                            mensaje = "Asesinar "+titan;
+                            mensaje = "Asesinar "+titan+ " ";
+                            break;
                         case "5":
                             System.out.println();
                             continue;
