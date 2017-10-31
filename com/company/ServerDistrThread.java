@@ -59,8 +59,9 @@ public class ServerDistrThread extends Thread{
                     if (accion.equals("Capturar")){
                         Titan capturado = captura(Id);
                         if(capturado!=null){
+
                             mensajeEnviado = capturado.getId()+" capturado "+
-                                    socketUDP.getRemoteSocketAddress().toString()+" ";
+                                    paqueteRecibido.getAddress().toString()+" ";
                             capturados.add(capturado);
                         }
                     }
