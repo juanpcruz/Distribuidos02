@@ -27,7 +27,7 @@ public class ServerCentralDistritos extends Thread  {
                     socketUDP.receive(paqueteRecibido);
                     //traducir datagrama a string y luego obtener informacion de distrito a registrar
                     String mensajeRecibido = new String(paqueteRecibido.getData());
-                    System.out.println("Se esta agregando el servidor/distrito: "+ mensajeRecibido);
+                    System.out.println("[Servidor Central] Se esta agregando el servidor/distrito: "+ mensajeRecibido);
                     String[] partes = mensajeRecibido.split("/");
                     ArrayList nuevoDistrito = new ArrayList();
                     nuevoDistrito.add(partes[0]);

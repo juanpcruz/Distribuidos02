@@ -13,9 +13,9 @@ public class ClienteTCPthread extends Thread {
 
     List<Titan> capturados;
     List<Titan> asesinados;
-    List<Titan> titanes;
+    ArrayList<Titan> titanes;
 
-    public ClienteTCPthread(String mensaje, List<Titan> titans, List<Titan> capt, List<Titan> ases){
+    public ClienteTCPthread(String mensaje, ArrayList<Titan> titans, List<Titan> capt, List<Titan> ases){
         informacionDistrito = mensaje.split("/");
         titanes=titans;
         capturados=capt;
@@ -37,28 +37,31 @@ public class ClienteTCPthread extends Thread {
                 int id = Integer.parseInt(mensajeRecibido.split(" ")[0]);
                 String accion = mensajeRecibido.split(" ")[1];
                 if(accion.equals("aparece")){
-                    System.out.println("Aparece titan "+mensajeRecibido.split(" ")[2]+ "del tipo "+mensajeRecibido.split(" ")[3]);
+                    System.out.println("Aparece titan "+mensajeRecibido.split(" ")[2]+ " del tipo "+mensajeRecibido.split(" ")[3]);
                     titanes.add(new Titan(mensajeRecibido.split(" ")[2], mensajeRecibido.split(" ")[3],mensajeRecibido.split(" ")[4]));
-                    continue;
-                }
-                String culpable = mensajeRecibido.split(" ")[2];
-
-                if(culpable.equals(socketMulticast.getLocalAddress().toString())){
-                    if(accion.equals("capturado")){
-                        titan = pop1(capturados,id);
-                        System.out.println("Capturado: titan "+titan.getNombre()+",id "+titan.getId()+
-                                ", tipo "+titan.getTipo());
+                    for(Titan i:titanes) {
+                        System.out.println("Titan: "+i.getNombre()+", Tipo: "+ i.getTipo());
                     }
-                    else{
-                        titan = pop1(asesinados,id);
-                        System.out.println("Asesinado: titan "+titan.getNombre()+",id "+titan.getId()+
-                                ", tipo "+titan.getTipo());
+                }else {
+                    String culpable = mensajeRecibido.split(" ")[2];
+                    System.out.println(culpable);
+                    System.out.println(InetAddress.getLocalHost().getHostAddress());
 
+                    if (culpable.equals(InetAddress.getLocalHost().getHostAddress())) {
+                        if (accion.equals("capturado")) {
+                            titan = pop1(capturados, id);
+                            System.out.println("Capturado: titan " + titan.getNombre() + ",id " + titan.getId() +
+                                    ", tipo " + titan.getTipo());
+                        } else {
+                            titan = pop1(asesinados, id);
+                            System.out.println("Asesinado: titan " + titan.getNombre() + ",id " + titan.getId() +
+                                    ", tipo " + titan.getTipo());
+
+                        }
+                    } else {
+                        titan = pop2(titanes, id);
+                        System.out.println("Titan " + titan.getNombre() + " " + accion + " por " + culpable);
                     }
-                }
-                else{
-                    titan=pop2(titanes,id);
-                    System.out.println("Titan "+titan.getNombre()+" "+accion+" por "+culpable);
                 }
             }
         }
@@ -82,5 +85,8 @@ public class ClienteTCPthread extends Thread {
             }
         }
         return null;
+    }
+    public void cerrar(){
+        this.socketMulticast.close();
     }
 }

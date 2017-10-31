@@ -33,21 +33,21 @@ public class Titan {
     }
 
     public boolean tipoNormal(){
-        if (Objects.equals(tipo,"normal")){
+        if (Objects.equals(tipo,"Normal")){
             return true;
         }
         return false;
     }
 
     public boolean tipoExcentrico(){
-        if (Objects.equals(tipo,"excéntrico")){
+        if (Objects.equals(tipo,"Excentrico")){
             return true;
         }
         return false;
     }
 
     public boolean tipoCambiante(){
-        if (Objects.equals(tipo,"cambiante")){
+        if (Objects.equals(tipo,"Cambiante")){
             return true;
         }
         return false;

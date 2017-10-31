@@ -46,7 +46,6 @@ public class ServerDistrThread extends Thread{
                 if (mensajeRecibido.split(" ")[0].equals("Hola")) {
                     mensajeEnviado = superJoin(titanes);
                     data = mensajeEnviado.getBytes();
-                    System.out.print("asd");
                     paqueteEnviado = new DatagramPacket(data, data.length, paqueteRecibido.getAddress(), paqueteRecibido.getPort());
                     socketUDP.send(paqueteEnviado);
                     continue;
@@ -59,7 +58,6 @@ public class ServerDistrThread extends Thread{
                     if (accion.equals("Capturar")){
                         Titan capturado = captura(Id);
                         if(capturado!=null){
-
                             mensajeEnviado = capturado.getId()+" capturado "+
                                     paqueteRecibido.getAddress().toString()+" ";
                             capturados.add(capturado);

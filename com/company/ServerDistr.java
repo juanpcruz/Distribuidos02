@@ -74,7 +74,18 @@ public class ServerDistr {
                 System.out.println("Nombre del titan: ");
                 nombreTitan = buffer.readLine();
                 System.out.println("Tipo del titan: ");
+                System.out.println("1) Normal ");
+                System.out.println("2) Excentrico ");
+                System.out.println("3) Cambiante ");
+                System.out.print(">");
                 tipoTitan = buffer.readLine();
+                if(tipoTitan.equals("1")){
+                    tipoTitan = "Normal";
+                }else if(tipoTitan.equals("2")){
+                    tipoTitan = "Excentrico";
+                }else if(tipoTitan.equals("3")){
+                    tipoTitan = "Cambiante";
+                }
                 nuevoTitan = new Titan(nombreTitan, tipoTitan, distrito);
                 titanes.add( nuevoTitan );
                 mensaje = nuevoTitan.getId()+" "+ "aparece" +" "+nuevoTitan.getNombre()+" "+nuevoTitan.getTipo()+" "+nuevoTitan.getUltimoDistrito()+" ";

@@ -30,7 +30,8 @@ public class ServerCentralThread extends Thread {
                 in = new DataInputStream(socketTCP.getInputStream());
                 mensaje = in.readUTF();
                 //consultar si se otorga permiso de ingreso al servidor
-                System.out.println("Permitir conexion a  al servidor " + distritos.get(Integer.parseInt(mensaje) - 1).get(0) + "?");
+                System.out.println("[Servidor Central] Permitir conexion a  al servidor " + distritos.get(Integer.parseInt(mensaje) - 1).get(0) + "?(s/n)");
+                System.out.print(">");
                 //datos del distrito
                 datosDistrito = (String) distritos.get(Integer.parseInt(mensaje) - 1).get(0) + "/"+(String) distritos.get(Integer.parseInt(mensaje) - 1).get(1) + "/"+(String) distritos.get(Integer.parseInt(mensaje) - 1).get(2) + "/"+(String) distritos.get(Integer.parseInt(mensaje) - 1).get(3)+"/"+(String) distritos.get(Integer.parseInt(mensaje) - 1).get(4)+"/";
                 String respuesta = buffer.readLine();
