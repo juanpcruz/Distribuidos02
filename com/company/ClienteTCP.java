@@ -75,9 +75,9 @@ public class ClienteTCP {
                 System.out.println("Esperando lista de titanes...");
                 socketUDP.receive(paqueteRecibido);
                 String mensajeRecibido = new String(paqueteRecibido.getData());
-                System.out.print("Se recibio lista de titanes: "+mensajeRecibido);//aca manipular mensajeRecibido para guardarlos en la lista
+                System.out.println("Se recibio lista de titanes: "+mensajeRecibido);//aca manipular mensajeRecibido para guardarlos en la lista
 
-                //titanesDistrito = superUnpack(mensajeRecibido);
+                titanesDistrito = superUnpack(mensajeRecibido);
 
                 cambioDistrito = false;
                 while (!cambioDistrito) {
@@ -127,15 +127,17 @@ public class ClienteTCP {
         }
     }
     public static List<Titan> superUnpack(String mensaje){
+        Distrito distr = new Distrito("relleno");
         String[] split = mensaje.split("#");
         String[] split2;
         List<Titan> resultado = new ArrayList<>();
         for(String i:split){
             split2=i.split("/");
-            Titan aux = new Titan(split2[1],split2[2],null);
+            Titan aux = new Titan(split2[1],split2[2],distr);
             aux.setId(Integer.parseInt(split2[0]));
             aux.setUltimoDistrito(split2[3]);
             resultado.add(aux);
+            System.out.println("4");
         }
         return resultado;
     }

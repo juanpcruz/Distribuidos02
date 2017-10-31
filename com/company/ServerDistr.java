@@ -75,7 +75,7 @@ public class ServerDistr {
                 nombreTitan = buffer.readLine();
                 System.out.println("Tipo del titan: ");
                 tipoTitan = buffer.readLine();
-                nuevoTitan = new Titan(nombreTitan, tipoTitan, distrito)
+                nuevoTitan = new Titan(nombreTitan, tipoTitan, distrito);
                 titanes.add( nuevoTitan );
                 mensaje = nuevoTitan.getId()+" "+ "aparece" +" "+nuevoTitan.getNombre()+" "+nuevoTitan.getTipo()+" ";
                 data = mensaje.getBytes();
