@@ -14,7 +14,9 @@ public class ServerDistr {
         List<Titan> capturados = new ArrayList<>();
         List<Titan> asesinados = new ArrayList<>();
         Distrito distrito;
-
+        String nombreTitan;
+        String tipoTitan;
+        Titan nuevoTitan;
         ServerDistrThread recepcionPetiticones;
         BufferedReader buffer = new BufferedReader(new InputStreamReader(System.in));
         DatagramSocket socketUDP = new DatagramSocket(5000);
@@ -32,13 +34,12 @@ public class ServerDistr {
         //luego se crea un thread encargado de la recepcion de datagramas de peticiones de los clientes y su respuesta correspondiente,
         //tanto en unicast como multicast.
         //Este thread queda a cargo de la creacion de titanes y el envio de alerta multicast sobre este evento.
-        distrito = new Distrito("tumatrito");
-        titanes.add(new Titan("tuma", "exentrico", distrito));
 
         //ingreso de informacion del distrito/servidor
         String mensaje = "";
         System.out.print("Nombre de distrito a registrar:\n");
         mensaje = mensaje + buffer.readLine();
+        distrito = new Distrito(mensaje);
         System.out.print("IP Multicast:\n");
         IPMulticast = buffer.readLine();
         mensaje = mensaje + "/" + IPMulticast;
@@ -70,8 +71,13 @@ public class ServerDistr {
             System.out.println("Agregar titan? (agregar)");
             //aqui colocar leer si se agrega un titan, para luego enviarlo por multicast
             if(buffer.readLine().equals("agregar")) {
-                System.out.println("Mensaje del titan: ");
-                mensaje =buffer.readLine(); //informacion del titan para enviar
+                System.out.println("Nombre del titan: ");
+                nombreTitan = buffer.readLine();
+                System.out.println("Tipo del titan: ");
+                tipoTitan = buffer.readLine();
+                nuevoTitan = new Titan(nombreTitan, tipoTitan, distrito)
+                titanes.add( nuevoTitan );
+                mensaje = nuevoTitan.getId()+" "+ "aparece" +" "+nuevoTitan.getNombre()+" "+nuevoTitan.getTipo()+" ";
                 data = mensaje.getBytes();
                 paqueteEnviado = new DatagramPacket(data, data.length, InetAddress.getByName(IPMulticast), puertoMulticast);
                 socketUDP.send(paqueteEnviado);

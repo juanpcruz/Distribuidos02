@@ -36,6 +36,10 @@ public class ClienteTCPthread extends Thread {
 
                 int id = Integer.parseInt(mensajeRecibido.split(" ")[0]);
                 String accion = mensajeRecibido.split(" ")[1];
+                if(accion.equals("aparece")){
+                    System.out.println("Aparece titan "+mensajeRecibido.split(" ")[2]+ "del tipo "+mensajeRecibido.split(" ")[3]);
+                    continue;
+                }
                 String culpable = mensajeRecibido.split(" ")[2];
 
                 if(culpable.equals(socketMulticast.getLocalAddress().toString())){
@@ -55,9 +59,6 @@ public class ClienteTCPthread extends Thread {
                     titan=pop2(titanes,id);
                     System.out.println("Titan "+titan.getNombre()+" "+accion+" por "+culpable);
                 }
-                System.out.println(mensajeRecibido + " del thread");
-                //analizar el mensaje para actualizar las listas de titanes,titanes asesinados,titates capturados
-                //falta agregar a la clase en el constructor que reciba estas listas etc.
             }
         }
         catch (Exception e){
