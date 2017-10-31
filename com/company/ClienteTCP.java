@@ -59,20 +59,23 @@ public class ClienteTCP {
             if(mensaje.equals("Conexion aceptada")) {
                 //datos del distrito
                 mensaje = in.readUTF();
+                System.out.println(mensaje);
                 //creacion de thread encargado de recibir los datagramas en multicast
                 recepcionMulticast = new ClienteTCPthread(mensaje,titanesDistrito,capturados,asesinados); // falta que reciba las listaS de titanes para modificarlas
                 recepcionMulticast.start();
+                System.out.println("Enviando saludo...");
                 //envio del mensaje de saludo
                 socketUDP = new DatagramSocket(4200);
                 paqueteRecibido = new DatagramPacket(data, 256);
                 informacionDistrito = mensaje.split("/");
                 data = "Hola".getBytes();
-                paqueteEnviado = new DatagramPacket(data, data.length, InetAddress.getByName(informacionDistrito[3]), Integer.parseInt(informacionDistrito[4]));
+                paqueteEnviado = new DatagramPacket(data, data.length, InetAddress.getByName(informacionDistrito[3]),5300);
                 socketUDP.send(paqueteEnviado);
                 //recepcion de la lista de titanes
+                System.out.println("Esperando lista de titanes...");
                 socketUDP.receive(paqueteRecibido);
                 String mensajeRecibido = new String(paqueteRecibido.getData());
-                System.out.print(mensajeRecibido);//aca manipular mensajeRecibido para guardarlos en la lista
+                System.out.print("Se recibio lista de titanes: "+mensajeRecibido);//aca manipular mensajeRecibido para guardarlos en la lista
                 socketUDP.close();
 
                 titanesDistrito = superUnpack(mensajeRecibido);
