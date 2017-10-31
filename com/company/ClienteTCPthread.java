@@ -31,7 +31,6 @@ public class ClienteTCPthread extends Thread {
                 paqueteRecibido = new DatagramPacket(bitsRecibido, bitsRecibido.length);
                 socketMulticast.receive(paqueteRecibido);
                 mensajeRecibido = new String(paqueteRecibido.getData());
-                System.out.println("Se recibio el titan multicast:" + mensajeRecibido);
                 Titan titan;
 
                 int id = Integer.parseInt(mensajeRecibido.split(" ")[0]);
@@ -39,9 +38,7 @@ public class ClienteTCPthread extends Thread {
                 if(accion.equals("aparece")){
                     System.out.println("Aparece titan "+mensajeRecibido.split(" ")[2]+ " del tipo "+mensajeRecibido.split(" ")[3]);
                     titanes.add(new Titan(mensajeRecibido.split(" ")[2], mensajeRecibido.split(" ")[3],mensajeRecibido.split(" ")[4]));
-                    for(Titan i:titanes) {
-                        System.out.println("Titan: "+i.getNombre()+", Tipo: "+ i.getTipo());
-                    }
+                    System.out.print(">");
                 }else {
                     String culpable = mensajeRecibido.split(" ")[2];
                     System.out.println(culpable);
@@ -88,5 +85,21 @@ public class ClienteTCPthread extends Thread {
     }
     public void cerrar(){
         this.socketMulticast.close();
+    }
+    public ArrayList<Titan> superUnpack(String mensaje){
+        String[] split = mensaje.split("#");
+        String[] split2;
+        ArrayList<Titan> resultado = new ArrayList<>();
+        for(String i:split){
+            if(i.startsWith("$")){
+                break;
+            }
+            split2=i.split("/");
+            Titan aux = new Titan(split2[1],split2[2],split2[3]);
+            aux.setId(Integer.parseInt(split2[0]));
+            aux.setUltimoDistrito(split2[3]);
+            resultado.add(aux);
+        }
+        return resultado;
     }
 }

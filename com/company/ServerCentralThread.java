@@ -41,14 +41,10 @@ public class ServerCentralThread extends Thread {
                     out.writeUTF(mensaje);
                     //enviar datos del distrito
                     out.writeUTF(datosDistrito);
-                    //simple recibo de mensajes
-                    while (true) {
-                        mensaje = in.readUTF();
-                        System.out.println(mensaje);
-                    }
                 } else { // si es negativo(falta cerrar la conexion o intentar otro servidor)
                     mensaje = "Conexion negada";
                     out.writeUTF(mensaje);
+                    break;
                 }
             }
 

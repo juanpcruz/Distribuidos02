@@ -25,6 +25,7 @@ public class ClienteTCP {
         String titan;
 
         ArrayList<Titan> titanesDistrito = new ArrayList<>(); //lista "sincronizada" con la lista de titanes del distrito
+        ArrayList<Titan> titanesDistritoAux = new ArrayList<>();
         List<Titan> capturados = new ArrayList<>();
         List<Titan> asesinados = new ArrayList<>();
 
@@ -61,21 +62,32 @@ public class ClienteTCP {
                     //datos del distrito
                     mensaje = in.readUTF();
                     //creacion de thread encargado de recibir los datagramas en multicast
-                    recepcionMulticast = new ClienteTCPthread(mensaje, titanesDistrito, capturados, asesinados); // falta que reciba las listaS de titanes para modificarlas
+                    System.out.println("creando thread");
+                    recepcionMulticast = new ClienteTCPthread(mensaje, titanesDistrito, capturados, asesinados);
                     recepcionMulticast.start();
+                    System.out.println("thread creado");
                     //envio del mensaje de saludo
                     socketUDP = new DatagramSocket(4200);
                     data = new byte[256];
                     paqueteRecibido = new DatagramPacket(data, 256);
                     informacionDistrito = mensaje.split("/");
                     data = "Hola ".getBytes();
+
+                    System.out.println("1111);
                     paqueteEnviado = new DatagramPacket(data, data.length, InetAddress.getByName(informacionDistrito[3]), Integer.parseInt(informacionDistrito[4]));
                     socketUDP.send(paqueteEnviado);
+                    System.out.println("2222");
                     //recepcion de la lista de titanes
                     socketUDP.receive(paqueteRecibido);
                     String mensajeRecibido = new String(paqueteRecibido.getData());
-                    titanesDistrito = superUnpack(mensajeRecibido);
+                    System.out.println("33333");
+                    //titanesDistrito = superUnpack(mensajeRecibido);
+                    titanesDistritoAux = recepcionMulticast.superUnpack(mensajeRecibido);
+                    for (Titan i : titanesDistritoAux) {
+                        titanesDistrito.add(i);
+                    }
 
+                    System.out.println("44444");
                     cambioDistrito = false;
                     System.out.println("Lista de acciones:");
                     System.out.println("1) Listar titanes\n2) Cambiar de distrito\n3) Capturar titan\n4) " +
