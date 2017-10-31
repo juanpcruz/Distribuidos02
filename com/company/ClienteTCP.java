@@ -129,7 +129,7 @@ public class ClienteTCP {
     public static List<Titan> superUnpack(String mensaje){
         String[] split = mensaje.split("#");
         String[] split2;
-        List<Titan> resultado = null;
+        List<Titan> resultado = new ArrayList<>();
         for(String i:split){
             split2=i.split("/");
             Titan aux = new Titan(split2[1],split2[2],null);
