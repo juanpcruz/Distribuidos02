@@ -20,7 +20,8 @@ public class ServerDistr {
         ServerDistrThread recepcionPetiticones;
         BufferedReader buffer = new BufferedReader(new InputStreamReader(System.in));
         DatagramSocket socketUDP = new DatagramSocket(5000);
-        InetAddress IPAddress = InetAddress.getByName("localhost");
+        InetAddress IPAddress;
+        String ipCentral;
         byte[] data = new byte[256];
         byte[] bitsRecibido = new byte[256];
         DatagramPacket paqueteRecibido = new DatagramPacket(bitsRecibido, 256);
@@ -37,6 +38,9 @@ public class ServerDistr {
 
         //ingreso de informacion del distrito/servidor
         String mensaje = "";
+        System.out.print("IP del servidor Central:\n");
+        ipCentral = buffer.readLine();
+        IPAddress = InetAddress.getByName(ipCentral);
         System.out.print("Nombre de distrito a registrar:\n");
         mensaje = mensaje + buffer.readLine();
         distrito = mensaje;

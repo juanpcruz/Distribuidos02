@@ -21,7 +21,7 @@ public class ServerTCP {
             threadDistritos.start();
 
             while (true) {
-                server = new ServerSocket(6000);
+                server = new ServerSocket(4500);
                 socketBienvenida = server.accept();
                 //ejecutar y agregar thread a la lista de estos
                 conexiones.add(0,new ServerCentralThread(socketBienvenida,distritos));

@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ClienteTCP {
-
+    //static ArrayList<Titan> titanesDistrito;
     public static void main(String argv[]) throws Exception{
         BufferedReader buffer = new BufferedReader(new InputStreamReader(System.in));
         DataInputStream in;
@@ -92,7 +92,7 @@ public class ClienteTCP {
                                 }
                                 break;
                             case "2":
-                                System.out.println("2) Cambiooo");//cambiar, dejar en un while true desde conectar al servidor central
+                                //cambiar, dejar en un while true desde conectar al servidor central
                                 //para que reenvie los servidores (como si se reconectara)
                                 cambioDistrito = true;
                                 break;
