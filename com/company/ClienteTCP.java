@@ -73,7 +73,7 @@ public class ClienteTCP {
                     informacionDistrito = mensaje.split("/");
                     data = "Hola ".getBytes();
 
-                    System.out.println("1111);
+                    System.out.println("1111");
                     paqueteEnviado = new DatagramPacket(data, data.length, InetAddress.getByName(informacionDistrito[3]), Integer.parseInt(informacionDistrito[4]));
                     socketUDP.send(paqueteEnviado);
                     System.out.println("2222");
