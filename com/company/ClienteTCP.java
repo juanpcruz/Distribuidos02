@@ -65,7 +65,7 @@ public class ClienteTCP {
                     recepcionMulticast = new ClienteTCPthread(mensaje, titanesDistrito, capturados, asesinados);
                     recepcionMulticast.start();
                     //envio del mensaje de saludo
-                    socketUDP = new DatagramSocket(4200);
+                    socketUDP = new DatagramSocket(5200);
                     data = new byte[256];
                     paqueteRecibido = new DatagramPacket(data, 256);
                     informacionDistrito = mensaje.split("/");
