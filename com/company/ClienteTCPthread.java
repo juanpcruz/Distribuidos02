@@ -47,21 +47,25 @@ public class ClienteTCPthread extends Thread {
                     if (culpable.equals(InetAddress.getLocalHost().getHostAddress())) {
                         if (accion.equals("capturado")) {
                             titan = pop1(titanes, id);
-                            System.out.println("Capturado: titan " + titan.getNombre() + ",id " + titan.getId() +
-                                    ", tipo " + titan.getTipo());
-                            System.out.println(">");
-                            capturados.add(titan);
+                            if(titan!=null) {
+                                System.out.println("Capturado: titan " + titan.getNombre() + ",id " + titan.getId() +
+                                        ", tipo " + titan.getTipo());
+                                System.out.print(">");
+                                capturados.add(titan);
+                            }
                         } else {
                             titan = pop1(titanes, id);
-                            System.out.println("Asesinado: titan " + titan.getNombre() + ",id " + titan.getId() +
-                                    ", tipo " + titan.getTipo());
-                            System.out.println(">");
-                            asesinados.add(titan);
+                            if(titan != null) {
+                                System.out.println("Asesinado: titan " + titan.getNombre() + ",id " + titan.getId() +
+                                        ", tipo " + titan.getTipo());
+                                System.out.print(">");
+                                asesinados.add(titan);
+                            }
                         }
                     } else {
                         titan = pop1(titanes, id);
                         System.out.println("Titan " + titan.getNombre() + " " + accion + " por " + culpable);
-                        System.out.println(">");
+                        System.out.print(">");
                     }
                 }
             }
