@@ -49,14 +49,18 @@ public class ClienteTCPthread extends Thread {
                     if (culpable.equals(InetAddress.getLocalHost().getHostAddress())) {
                         if (accion.equals("capturado")) {
                             titan = pop1(titanes, id);
-                            System.out.println("Capturado: titan " + titan.getNombre() + ",id " + titan.getId() +
-                                    ", tipo " + titan.getTipo());
-                            capturados.add(titan);
+                            if(titan!=null) {
+                                System.out.println("Capturado: titan " + titan.getNombre() + ",id " + titan.getId() +
+                                        ", tipo " + titan.getTipo());
+                                capturados.add(titan);
+                            }
                         } else {
                             titan = pop1(titanes, id);
-                            System.out.println("Asesinado: titan " + titan.getNombre() + ",id " + titan.getId() +
-                                    ", tipo " + titan.getTipo());
-                            asesinados.add(titan);
+                            if(titan != null) {
+                                System.out.println("Asesinado: titan " + titan.getNombre() + ",id " + titan.getId() +
+                                        ", tipo " + titan.getTipo());
+                                asesinados.add(titan);
+                            }
                         }
                     } else {
                         titan = pop1(titanes, id);
