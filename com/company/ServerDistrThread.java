@@ -40,10 +40,8 @@ public class ServerDistrThread extends Thread{
                 //Responde por multicast peticiones de asesinato/captura
                 socketUDP.receive(paqueteRecibido);
                 String mensajeRecibido = new String(paqueteRecibido.getData());
-                System.out.println("Se recibio el mensaje: " +mensajeRecibido);
                 //si el mensaje es Hola, se debe responder con la lista actual de titanes
                 if (mensajeRecibido.split(" ")[0].equals("Hola")) {
-                    System.out.println("Se esta enviando titanes a "+ paqueteRecibido.getAddress()+ paqueteRecibido.getPort());
                     mensajeEnviado = superJoin(titanes);
                     data = mensajeEnviado.getBytes();
                     paqueteEnviado = new DatagramPacket(data, data.length, paqueteRecibido.getAddress(), paqueteRecibido.getPort());
