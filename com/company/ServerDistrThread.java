@@ -62,6 +62,10 @@ public class ServerDistrThread extends Thread{
                             mensajeEnviado = capturado.getId()+" capturado "+
                                     paqueteRecibido.getAddress().toString()+" ";
                             capturados.add(capturado);
+                            data = mensajeEnviado.getBytes();
+                            paqueteEnviado = new DatagramPacket(data, data.length, InetAddress.getByName(IPMult), puertoMult);
+                            socketUDP.send(paqueteEnviado);
+                            continue;
                         }
                     }
                     //Accion de asesinato
@@ -71,15 +75,16 @@ public class ServerDistrThread extends Thread{
                             mensajeEnviado = asesinado.getId()+" asesinado "+
                                     socketUDP.getRemoteSocketAddress().toString()+" ";
                             asesinados.add(asesinado);
+                            data = mensajeEnviado.getBytes();
+                            paqueteEnviado = new DatagramPacket(data, data.length, InetAddress.getByName(IPMult), puertoMult);
+                            socketUDP.send(paqueteEnviado);
+                            continue;
                         }
                     }
                 }
                 //Aca si es eliminar, borrar de la lista de titanes(supongo que List es referenciada)
                 //luego enviar por multicast info de quien lo mato/captura
                 //mensajeEnviado = "tuma";
-                data = mensajeEnviado.getBytes();
-                paqueteEnviado = new DatagramPacket(data, data.length, InetAddress.getByName(IPMult), puertoMult);
-                socketUDP.send(paqueteEnviado);
             }
         }
         catch (Exception e){
