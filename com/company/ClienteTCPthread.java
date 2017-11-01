@@ -26,19 +26,17 @@ public class ClienteTCPthread extends Thread {
             //Thread encargado de la recepcion asincronica de datagramas multicast por parte del distrito(ServerDistr)
             socketMulticast = new MulticastSocket(Integer.parseInt(informacionDistrito[2]));
             socketMulticast.joinGroup(InetAddress.getByName(informacionDistrito[1]));
-            System.out.println("He sido asignado al grupo multicast: "+ Integer.parseInt(informacionDistrito[2]) +InetAddress.getByName(informacionDistrito[1]));
             while(true) {
                 byte[] bitsRecibido = new byte[256];
                 paqueteRecibido = new DatagramPacket(bitsRecibido, bitsRecibido.length);
                 socketMulticast.receive(paqueteRecibido);
-                System.out.println("Llego multicast!!!!");
                 mensajeRecibido = new String(paqueteRecibido.getData());
                 Titan titan;
 
                 int id = Integer.parseInt(mensajeRecibido.split(" ")[0]);
                 String accion = mensajeRecibido.split(" ")[1];
                 if(accion.equals("aparece")){
-                    System.out.println("Aparece titan "+mensajeRecibido.split(" ")[2]+ " del tipo "+mensajeRecibido.split(" ")[3]);
+                    System.out.println("¡¡¡Aparece titan "+mensajeRecibido.split(" ")[2]+ " del tipo "+mensajeRecibido.split(" ")[3]+"!!!!!!");
                     titanes.add(new Titan(mensajeRecibido.split(" ")[2], mensajeRecibido.split(" ")[3],mensajeRecibido.split(" ")[4]));
                     System.out.print(">");
                 }else {
@@ -51,16 +49,19 @@ public class ClienteTCPthread extends Thread {
                             titan = pop1(titanes, id);
                             System.out.println("Capturado: titan " + titan.getNombre() + ",id " + titan.getId() +
                                     ", tipo " + titan.getTipo());
+                            System.out.println(">");
                             capturados.add(titan);
                         } else {
                             titan = pop1(titanes, id);
                             System.out.println("Asesinado: titan " + titan.getNombre() + ",id " + titan.getId() +
                                     ", tipo " + titan.getTipo());
+                            System.out.println(">");
                             asesinados.add(titan);
                         }
                     } else {
                         titan = pop1(titanes, id);
                         System.out.println("Titan " + titan.getNombre() + " " + accion + " por " + culpable);
+                        System.out.println(">");
                     }
                 }
             }

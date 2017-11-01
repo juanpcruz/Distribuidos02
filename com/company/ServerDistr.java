@@ -30,6 +30,7 @@ public class ServerDistr {
         int puerto;
         String ip;
         String IPMulticast;
+        MulticastSocket multicastSocket;
 
         //En un principio el distrito se registra con el servidor central(1 datagrama enviado y 1 recibido)
         //luego se crea un thread encargado de la recepcion de datagramas de peticiones de los clientes y su respuesta correspondiente,
@@ -67,6 +68,7 @@ public class ServerDistr {
         socketUDP.close();
         //multicast
         socketUDP = new DatagramSocket(puerto);
+        multicastSocket = new MulticastSocket();
         //creacion del thread encargado de peticiones
         recepcionPetiticones = new ServerDistrThread(socketUDP, titanes, capturados, asesinados,
                 puertoMulticast, IPMulticast, distrito);
@@ -95,7 +97,7 @@ public class ServerDistr {
                 mensaje = nuevoTitan.getId()+" "+ "aparece" +" "+nuevoTitan.getNombre()+" "+nuevoTitan.getTipo()+" "+nuevoTitan.getUltimoDistrito()+" ";
                 data = mensaje.getBytes();
                 paqueteEnviado = new DatagramPacket(data, data.length, InetAddress.getByName(IPMulticast), puertoMulticast);
-                socketUDP.send(paqueteEnviado);
+                multicastSocket.send(paqueteEnviado);
             }
         }
     }

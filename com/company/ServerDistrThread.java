@@ -1,8 +1,6 @@
 package com.company;
 
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
+import java.net.*;
 import java.util.List;
 
 public class ServerDistrThread extends Thread{
@@ -19,6 +17,7 @@ public class ServerDistrThread extends Thread{
     int puertoMult;
     String IPMult;
     String distrito;
+    MulticastSocket multicastSocket;
 
 
     public ServerDistrThread(DatagramSocket socket, List<Titan> listaTitanes, List<Titan> capt, List<Titan> ases,
@@ -35,6 +34,7 @@ public class ServerDistrThread extends Thread{
         try {
             data = new byte[256];
             paqueteRecibido = new DatagramPacket(data, 256);
+            multicastSocket = new MulticastSocket();
             while(true) {
                 //Thread encargado de la recepcion asincronica de datagramas unicast por parte de de clientesTCP
                 //Responde por multicast peticiones de asesinato/captura
@@ -73,13 +73,10 @@ public class ServerDistrThread extends Thread{
                             asesinados.add(asesinado);
                         }
                     }
+                    data = mensajeEnviado.getBytes();
+                    paqueteEnviado = new DatagramPacket(data, data.length, InetAddress.getByName(IPMult), puertoMult);
+                    multicastSocket.send(paqueteEnviado);
                 }
-                //Aca si es eliminar, borrar de la lista de titanes(supongo que List es referenciada)
-                //luego enviar por multicast info de quien lo mato/captura
-                //mensajeEnviado = "tuma";
-                data = mensajeEnviado.getBytes();
-                paqueteEnviado = new DatagramPacket(data, data.length, InetAddress.getByName(IPMult), puertoMult);
-                socketUDP.send(paqueteEnviado);
             }
         }
         catch (Exception e){
