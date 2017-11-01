@@ -4,18 +4,18 @@ JC = javac
 .java.class:
 	$(JC) $(JFLAGS) $*.java
 
-Distrito = \
+Dist = \
 	ServerDistr.java \
 	ServerDistrThread.java \
 	Titan.java 
 
-ServidorCentral = \
+Cent = \
 	ServerTCP.java \
 	ServerCentralDistritos.java \
 	ServerCentralThread.java \
 	Titan.java
 
-Cliente = \
+Cli = \
 	ClienteTCP.java \
 	ClienteTCPthread.java \
 	Titan.java
@@ -24,9 +24,9 @@ cliente: client
 servidorCentral: centralServer
 distrito: district
 
-client: $(Cliente:.java=.class)
-centralServer: $(ServidorCentral:.java=.class)
-district: $(Distrito:.java=.class)
+client: $(Cli:.java=.class)
+centralServer: $(Cent:.java=.class)
+district: $(Dist:.java=.class)
 
 clean:
 	$(RM) *.class
