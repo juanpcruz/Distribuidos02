@@ -38,10 +38,9 @@ public class ServerDistrThread extends Thread{
             while(true) {
                 //Thread encargado de la recepcion asincronica de datagramas unicast por parte de de clientesTCP
                 //Responde por multicast peticiones de asesinato/captura
-                System.out.println("Esperando paquete en thread ...");
                 socketUDP.receive(paqueteRecibido);
                 String mensajeRecibido = new String(paqueteRecibido.getData());
-                System.out.println("Se recibio el mensaje: " +mensajeRecibido +"/");
+                System.out.println("Se recibio el mensaje: " +mensajeRecibido);
                 //si el mensaje es Hola, se debe responder con la lista actual de titanes
                 if (mensajeRecibido.split(" ")[0].equals("Hola")) {
                     System.out.println("Se esta enviando titanes a "+ paqueteRecibido.getAddress()+ paqueteRecibido.getPort());
@@ -62,6 +61,10 @@ public class ServerDistrThread extends Thread{
                             mensajeEnviado = capturado.getId()+" capturado "+
                                     paqueteRecibido.getAddress().toString()+" ";
                             capturados.add(capturado);
+                            data = mensajeEnviado.getBytes();
+                            paqueteEnviado = new DatagramPacket(data, data.length, InetAddress.getByName(IPMult), puertoMult);
+                            socketUDP.send(paqueteEnviado);
+                            continue;
                         }
                     }
                     //Accion de asesinato
@@ -71,12 +74,14 @@ public class ServerDistrThread extends Thread{
                             mensajeEnviado = asesinado.getId()+" asesinado "+
                                     socketUDP.getRemoteSocketAddress().toString()+" ";
                             asesinados.add(asesinado);
+                            data = mensajeEnviado.getBytes();
+                            paqueteEnviado = new DatagramPacket(data, data.length, InetAddress.getByName(IPMult), puertoMult);
+                            socketUDP.send(paqueteEnviado);
+                            continue;
                         }
                     }
-                    data = mensajeEnviado.getBytes();
-                    paqueteEnviado = new DatagramPacket(data, data.length, InetAddress.getByName(IPMult), puertoMult);
-                    multicastSocket.send(paqueteEnviado);
                 }
+
             }
         }
         catch (Exception e){
