@@ -20,13 +20,13 @@ Cliente = \
 	ClienteTCPthread.java \
 	Titan.java
 
-cliente: cliente
-servidorCentral: servidorCentral
-distrito: distrito
+cliente: client
+servidorCentral: centralServer
+distrito: district
 
-cliente: $(Cliente:.java=.class)
-servidorCentral: $(ServidorCentral:.java=.class)
-distrito: $(Distrito:.java=.class)
+client: $(Cliente:.java=.class)
+centralServer: $(ServidorCentral:.java=.class)
+district: $(Distrito:.java=.class)
 
 clean:
 	$(RM) *.class
